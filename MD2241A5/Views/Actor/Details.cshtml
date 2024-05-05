@@ -1,0 +1,99 @@
+﻿@model MD2241A5.Models.ActorWithDetailViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Actor Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlternateName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AlternateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+        <dd>
+            <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 200px; max-height: 200px;" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            Executive
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Executive)
+        </dd>
+    </dl>
+</div>
+
+<!-- Display related actors -->
+@if (Model.Shows != null && Model.Shows.Any())
+{
+    <h4>Related Shows</h4>
+    <ul>
+        @foreach (var show in Model.Shows)
+        {
+            <li>@show.Name</li>
+            <ul>
+                @foreach (var episode in show.Episodes)
+                {
+                    <li>Appeared in: @show.Name</li>
+                }
+            </ul>
+        }
+    </ul>
+}
+else
+{
+    <p>No related shows found.</p>
+}
+
+<!-- Display count of episodes -->
+@if (Model.Shows != null && Model.Shows.Any())
+{
+    <h4>Total Episodes</h4>
+    <p>Total Episodes: @Model.Shows.Sum(s => s.Episodes.Count())</p>
+}
+else
+{
+    <p>Total Episodes: 0</p>
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<!-- Conditionally render "Add New Show" link -->
+@if (ViewBag.IsCoordinator)
+{
+    @Html.ActionLink("Add New Show", "Create", "Show", null, new { @class = "btn btn-primary" })
+}

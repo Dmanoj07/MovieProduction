@@ -1,0 +1,88 @@
+﻿@model MD2241A5.Models.ShowAddFormViewModel
+
+@{
+    ViewBag.Title = $"Add Show for {Model.KnownActorName}";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="bootstrap-well">
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!-- Name -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Release Date -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Genre -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Genre, Model.Genres, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!-- Actors -->
+            <div class="form-group">
+                @Html.Label("Actors", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @foreach (var actor in Model.Actors.Items.Cast<SelectListItem>())
+                    {
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="SelectedActorIds" value="@actor.Value" @(Model.SelectedActorIds != null && Model.SelectedActorIds.Any(id => id.ToString().Equals(actor.Value)) ? "checked=\"checked\"" : "") />
+                                @actor.Text
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+
+            <!-- Create Button -->
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

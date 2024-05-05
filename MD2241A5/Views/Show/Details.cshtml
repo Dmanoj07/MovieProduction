@@ -1,0 +1,91 @@
+﻿@model MD2241A5.Models.ShowWithDetailViewModel
+
+@{
+    ViewBag.Title = Model.Name + " Details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <dl class="dl-horizontal">
+            <dt>
+                Name
+            </dt>
+            <dd>
+                @Model.Name
+            </dd>
+            <dt>
+                Genre
+            </dt>
+            <dd>
+                @Model.Genre
+            </dd>
+
+            <dt>
+                Release Date
+            </dt>
+            <dd>
+                @Model.ReleaseDate.ToShortDateString()
+            </dd>
+
+            <dt>
+                Image
+            </dt>
+            <dd>
+                <img src="@Model.ImageUrl" class="img-responsive" alt="Show image" />
+            </dd>
+
+            <dt>
+                Coordinator
+            </dt>
+            <dd>
+                @Model.Coordinator
+            </dd>
+        </dl>
+    </div>
+    @* <div class="col-md-4">
+            <img src="@Model.ImageUrl" class="img-responsive" alt="Show image" />
+        </div>*@
+</div>
+
+
+<h3>Episodes (@Model.Episodes.Count())</h3>
+@if (Model.Episodes.Any())
+{
+    <ul>
+        @foreach (var episode in Model.Episodes)
+        {
+            <li>@episode.Name (@episode.AirDate.ToShortDateString())</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No episodes available.</p>
+}
+
+@*<h3>Actors</h3>
+@if (Model.Actors.Any())
+{
+    <ul>
+        @foreach (var actor in Model.Actors)
+        {
+            <li>@actor.Name (@actor.BirthDate?.ToShortDateString() ?? "Unknown birth date")</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No actors associated with this show.</p>
+}*@
+
+@if (User.IsInRole("Clerk"))
+{
+    <div>
+        @Html.ActionLink("Add New Episode", "Create", "Episode", new { showId = Model.Id }, new { @class = "btn btn-primary" })
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>

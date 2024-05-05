@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- Do not modify the meta properties below -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="MD2241A5" />
+    <meta name="application-name" content="2231-1d09539b-8387-47fc-8850-8407604c42c0" />
+
+    <title>@ViewBag.Title - MD2241A5</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @{
+        var userAccount = new MD2241A5.Controllers.RequestUser(User as System.Security.Claims.ClaimsPrincipal);
+    }
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("MD2241A5", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Roles", "Roles", "LoadData")</li>
+                    @if (userAccount.IsAdmin || userAccount.IsExecutive || userAccount.IsCoordinator || userAccount.IsClerk)
+                    {
+                        <li>@Html.ActionLink("Genres", "Genres", "LoadData")</li>
+                        <li>@Html.ActionLink("Actors", "Actors", "LoadData")</li>
+                        <li>@Html.ActionLink("Shows", "Shows", "LoadData")</li>
+                        <li>@Html.ActionLink("Episodes", "Episodes", "LoadData")</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>
+                <small>
+                    By submitting this assignment you agree to the following:
+                    I declare that this assignment is my own work in accordance with the Seneca Academic
+                    Policy. No part of this assignment has been copied manually or electronically from
+                    any other source (including web sites) or distributed to other students.
+                </small>
+            </p>
+            <p>&copy; Manoj Dhami, mdhami7@myseneca.ca, WEB524 Winter 2024</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
